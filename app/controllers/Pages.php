@@ -11,7 +11,7 @@ class Pages extends Controller {
     $users = $this->userModel->getUsers();
     $data = [
       'title' => "Thuis pagina",
-      'name' => "Arjan de Ruijter",
+      'name' => "Arjan de Ruijter is mijn naam",
       'users' => $users
     ];
     $this->view('pages/index', $data);

@@ -1,17 +1,25 @@
 <?php
+/**
+ * 
+ */
 class Core {
-  protected $currentController = 'Pages';
+  protected $currentController = 'Homepages';
   protected $currentMethod = 'index';
   protected $params = [];
 
   public function __construct()
   {
+    /**
+     * 
+     */
     // var_dump($this->getURL());
     $url = $this->getURL();
+    // var_dump($url);echo '../app/controllers/' . ucwords($url[0]) . '.php';exit();
     // We hebben ../nodig omdat we Core.php require vanuit index.php
-    if (file_exists('../controllers/' . ucwords($url[0]) . '.php')) {
+    if (file_exists('../app/controllers/' . ucwords($url[0]) . '.php')) {
       // Zet de currentController gelijk aan het eerste woord na het domein
       $this->currentController = ucwords($url[0]);
+      // echo $this->currentController;exit();
       unset($url[0]);
     }
     // Als de controller niet bestaat, dan is hij gelijk aan pages
@@ -41,11 +49,11 @@ class Core {
 
       $url = filter_var($url, FILTER_SANITIZE_URL);
       
-      $url = explode('/', $url);
-      
+      $url = explode('/', $url);      
       return $url;
-    } else {
-      return $url = array('pages', 'index');
+    } else {      
+      return array('homepages', 'index');
     }
+
   }
 }
