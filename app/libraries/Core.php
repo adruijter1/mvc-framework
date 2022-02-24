@@ -14,6 +14,7 @@ class Core {
      */
     // var_dump($this->getURL());
     $url = $this->getURL();
+    // var_dump($url);exit();
     // var_dump($url);echo '../app/controllers/' . ucwords($url[0]) . '.php';exit();
     // We hebben ../nodig omdat we Core.php require vanuit index.php
     if (file_exists('../app/controllers/' . ucwords($url[0]) . '.php')) {
