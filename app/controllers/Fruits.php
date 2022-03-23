@@ -11,7 +11,7 @@ class Fruits extends Controller {
      * uit de database
      */
     $fruits = $this->fruitModel->getFruits();
-
+    
     /**
      * Maak de inhoud voor de tbody in de view
      */
@@ -22,6 +22,8 @@ class Fruits extends Controller {
                   <td>$value->name</td>
                   <td>$value->color</td>
                   <td>$value->price</td>
+                  <td><a href='/fruits/update/$value->id'>update</a></td>
+                  <td><a href='/fruits/delete/$value->id'>delete</a></td>
                 </tr>";
     }
 
@@ -30,17 +32,23 @@ class Fruits extends Controller {
       'title' => '<h1>Fruit overzicht<h1>',
       'fruits' => $rows
     ];
+    // var_dump($data);exit();
     $this->view('fruits/index', $data);
   }
 
   public function delete($id) {
-    $deleteFruit = $this->fruitModel->delFruit($id);
-    $this->index();
+    $this->fruitModel->delFruit($id);
+    header("Location:" . URLROOT . "/fruits/index");
   }
 
-  public function update($id) {
+  public function update($id = null) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      echo 'post';exit;
+      // echo 'post';exit;
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+      //  var_dump($_POST);exit();
+      $this->fruitModel->updateFruit($_POST);
+      header("Location: " . URLROOT . "/fruits/index");
     }
     $row = $this->fruitModel->selSingleFruit($id);
     // var_dump($row);exit;
@@ -54,13 +62,10 @@ class Fruits extends Controller {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-      // var_dump($_POST);exit();
+      //  var_dump($_POST);exit();
       $this->fruitModel->updateFruit($_POST);
-      // echo 'post';exit;
+      header("Location: " . URLROOT . "/fruits/index");
     }
-    
-    
-  $this->view('fruits/index');
   }
 }
 
