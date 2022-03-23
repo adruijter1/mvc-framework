@@ -1,20 +1,20 @@
 <?php
-  class Fruit {
+  class Country {
     private $db;
 
     public function __construct() {
       $this->db = new Database();
     }
 
-    public function getFruits() {
-      $this->db->query("SELECT * FROM `fruit`;");
+    public function getCountries() {
+      $this->db->query("SELECT * FROM `country`;");
 
       $result = $this->db->resultSet();
 
       return $result;
     }
 
-    public function delFruit($id) {
+    public function delCountry($id) {
       // echo is_string($id);exit();
       // $id = intval($id);
       // echo is_int($id);exit();
@@ -24,13 +24,13 @@
       return $this->db->execute();
     }
 
-    public function selSingleFruit($id) {
+    public function selSingleCountry($id) {
       $this->db->query("SELECT * FROM `fruit` WHERE `id` = :id");
       $this->db->bind(':id', $id, PDO::PARAM_INT);
       return $this->db->single();
     }
 
-    public function updateFruit($post) {
+    public function updateCountry($post) {
       $this->db->query("UPDATE `fruit` 
                         SET `name` = :name, 
                             `color` = :color, 

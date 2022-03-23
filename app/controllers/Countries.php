@@ -1,8 +1,8 @@
 <?php
-class Fruits extends Controller {
+class Countries extends Controller {
 
   public function __construct() {
-    $this->fruitModel = $this->model('Fruit');
+    $this->countryModel = $this->model('Country');
   }
 
   public function index() {
@@ -10,27 +10,28 @@ class Fruits extends Controller {
      * Haal via de method getFruits() uit de model Fruit de records op
      * uit de database
      */
-    $fruits = $this->fruitModel->getFruits();
+    $countries = $this->countryModel->getCountries();
 
     /**
      * Maak de inhoud voor de tbody in de view
      */
     $rows = '';
-    foreach ($fruits as $value){
+    foreach ($countries as $value){
       $rows .= "<tr>
                   <td>$value->id</td>
-                  <td>$value->name</td>
-                  <td>$value->color</td>
-                  <td>$value->price</td>
+                  <td>" . htmlentities($value->name, ENT_QUOTES, 'ISO-8859-1') . "</td>
+                  <td>" . htmlentities($value->capitalCity, ENT_QUOTES, 'ISO-8859-1') . "</td>
+                  <td>" . htmlentities($value->continent, ENT_QUOTES, 'ISO-8859-1') . "</td>
+                  <td>" . number_format($value->population, 0, ',', '.') . "</td>
                 </tr>";
     }
 
 
     $data = [
-      'title' => '<h1>Fruit overzicht<h1>',
-      'fruits' => $rows
+      'title' => '<h1>Landenoverzicht<h1>',
+      'countries' => $rows
     ];
-    $this->view('fruits/index', $data);
+    $this->view('countries/index', $data);
   }
 
   public function delete($id) {
