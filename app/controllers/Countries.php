@@ -33,36 +33,6 @@ class Countries extends Controller {
     ];
     $this->view('countries/index', $data);
   }
-
-  public function delete($id) {
-    $deleteFruit = $this->fruitModel->delFruit($id);
-    $this->index();
-  }
-
-  public function update($id) {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      echo 'post';exit;
-    }
-    $row = $this->fruitModel->selSingleFruit($id);
-    // var_dump($row);exit;
-    $data = [
-      'selFruit' => $row
-    ];
-  $this->view('fruits/update', $data);
-  }
-
-  public function update_script() {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-      // var_dump($_POST);exit();
-      $this->fruitModel->updateFruit($_POST);
-      // echo 'post';exit;
-    }
-    
-    
-  $this->view('fruits/index');
-  }
 }
 
 ?>

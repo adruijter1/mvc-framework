@@ -3,8 +3,7 @@ class HomePages extends Controller {
 
   public function index() {
     $data = [
-      'title' => "Homepage",
-      'name' => "Arjan de Ruijter is mijn naam"
+      'title' => "Homepage"
     ];
     $this->view('homepages/index', $data);
   }
