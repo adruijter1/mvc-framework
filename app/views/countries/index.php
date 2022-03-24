@@ -12,4 +12,5 @@
     <?=$data['countries']?>
   </tbody>
 </table>
+<a href="<?=URLROOT;?>/homepages/index">terug</a>
 
