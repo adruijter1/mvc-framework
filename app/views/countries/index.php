@@ -7,6 +7,8 @@
     <th>hoofdstad</th>
     <th>continent</th>
     <th>aantalinwoners</th>
+    <th>update</th>
+    <th>delete</th>
   </thead>
   <tbody>
     <?=$data['countries']?>

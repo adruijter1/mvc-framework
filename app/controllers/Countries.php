@@ -23,6 +23,8 @@ class Countries extends Controller {
                   <td>" . htmlentities($value->capitalCity, ENT_QUOTES, 'ISO-8859-1') . "</td>
                   <td>" . htmlentities($value->continent, ENT_QUOTES, 'ISO-8859-1') . "</td>
                   <td>" . number_format($value->population, 0, ',', '.') . "</td>
+                  <td><a href='" . URLROOT . "/countries/update/$value->id'>update</a></td>
+                  <td><a href='" . URLROOT . "/countries/delete/$value->id'>delete</a></td>
                 </tr>";
     }
 
@@ -32,6 +34,26 @@ class Countries extends Controller {
       'countries' => $rows
     ];
     $this->view('countries/index', $data);
+  }
+
+  public function update($id = null) {
+    // var_dump($id);exit();
+    // var_dump($_SERVER);exit();
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+      $this->countryModel->updateCountry($_POST);
+      header("Location: " . URLROOT . "/countries/index");
+    } else {
+      $row = $this->countryModel->getSingleCountry($id);
+      $data = [
+        'title' => '<h1>Update landenoverzicht</h1>',
+        'row' => $row
+      ];
+      $this->view("countries/update", $data);
+    }
+
+   
+
   }
 }
 
