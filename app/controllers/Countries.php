@@ -55,6 +55,37 @@ class Countries extends Controller {
    
 
   }
+
+  public function delete($id) {
+    // echo $id;exit();
+    $this->countryModel->deleteCountry($id);
+
+    $data =[
+      'deleteStatus' => "Het record met id = $id is verwijdert"
+    ];
+    $this->view("countries/delete", $data);
+    header("Refresh:2; url=" . URLROOT . "/countries/index");
+  }
+
+  public function create() {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      // var_dump($_POST);
+      try {
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $this->countryModel->createCountry($_POST);
+        header("Location:" . URLROOT . "/countries/index");
+      } catch (PDOException $e) {
+        echo "Het inserten van het record is niet gelukt";
+        header("Refresh:3; url=" . URLROOT . "/countries/index");
+      }
+    } else {
+      $data = [
+        'title' => "Voeg een nieuw land in"
+      ];
+
+      $this->view("countries/create", $data);
+    }
+  }
 }
 
 ?>

@@ -1,5 +1,5 @@
 <?php echo $data["title"]; ?>
-
+<a href="<?=URLROOT;?>/countries/create">Nieuw record</a>
 <table>
   <thead>
     <th>id</th>
