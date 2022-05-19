@@ -4,7 +4,7 @@
   require_once 'libraries/Controller.php';
   require_once 'libraries/Database.php';
   require_once 'config/config.php';
-
+  //echo APPROOT;exit();
 
   // Maak een instantie van de Core class
   $init = new Core();

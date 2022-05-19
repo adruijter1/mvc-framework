@@ -1,6 +1,9 @@
 <?php
 class Countries extends Controller {
+  // Properties, field
+  private $countryModel;
 
+  // Dit is de constructor
   public function __construct() {
     $this->countryModel = $this->model('Country');
   }
@@ -51,20 +54,16 @@ class Countries extends Controller {
       ];
       $this->view("countries/update", $data);
     }
-
-   
-
   }
 
   public function delete($id) {
-    // echo $id;exit();
     $this->countryModel->deleteCountry($id);
 
     $data =[
       'deleteStatus' => "Het record met id = $id is verwijdert"
     ];
     $this->view("countries/delete", $data);
-    header("Refresh:2; url=" . URLROOT . "/countries/index");
+    header("Refresh:3; url=" . URLROOT . "/countries/index");
   }
 
   public function create() {
@@ -84,6 +83,36 @@ class Countries extends Controller {
       ];
 
       $this->view("countries/create", $data);
+    }
+  }
+
+  public function scanCountry() {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+      $record = $this->countryModel->getSingleCountryByName($_POST["country"]);
+
+      $rowData = "<tr>
+                    <td>$record->id</td>
+                    <td>$record->name</td>
+                    <td>$record->capitalCity</td>
+                    <td>$record->continent</td>
+                    <td>$record->population</td>
+                  </tr>";
+
+      $data = [
+        'title' => 'Dit is het gescande land',
+        'rowData' => $rowData
+      ];
+
+      $this->view('countries/scanCountry', $data);
+    } else {
+      $data = [
+        'title' => 'Scan het land',
+        'rowData' => ""
+      ];
+
+      $this->view('countries/scanCountry', $data);
     }
   }
 }

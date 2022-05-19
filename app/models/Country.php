@@ -1,5 +1,6 @@
 <?php
   class Country {
+    // Properties, fields
     private $db;
 
     public function __construct() {
@@ -8,9 +9,7 @@
 
     public function getCountries() {
       $this->db->query("SELECT * FROM `country`;");
-
       $result = $this->db->resultSet();
-
       return $result;
     }
 
@@ -19,6 +18,12 @@
       $this->db->bind(':id', $id, PDO::PARAM_INT);
       return $this->db->single();
     }
+
+    public function getSingleCountryByName($name) {
+      $this->db->query("SELECT * FROM country WHERE name = :name");
+      $this->db->bind(':name', $name, PDO::PARAM_STR);
+      return $this->db->single();
+    }    
 
     public function updateCountry($post) {
       $this->db->query("UPDATE country 
@@ -55,7 +60,6 @@
 
       return $this->db->execute();
     }
-
   }
 
 ?>

@@ -1,4 +1,7 @@
-<?php echo $data["title"]; ?>
+<?php 
+  //include(APPROOT . "/views/includes/head.php" );
+  echo $data["title"]; 
+?>
 <a href="<?=URLROOT;?>/countries/create">Nieuw record</a>
 <table>
   <thead>
