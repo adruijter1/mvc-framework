@@ -1,12 +1,17 @@
 <?php
 // Dit wordt de parentclass van alle andere controller
 // We loaden de model en de view
+
+
+namespace TDD\libraries;
+
+
 class Controller {
   // Geen properties
   
 
   public function model($model) {
-    require_once('../app/models/' . $model . '.php');
+    require_once('C:/projects_C2021/mvc-framework/app/models/' . $model . '.php');
     return new $model();
   }
 

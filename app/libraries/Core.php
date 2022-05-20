@@ -24,10 +24,12 @@ class Core {
       unset($url[0]);
     }
     // Als de controller niet bestaat, dan is hij gelijk aan pages
+    
     require_once '../app/controllers/' . $this->currentController . ".php";
 
     // Maak een nieuwe instantie van de controllerClass
-    $this->currentController = new $this->currentController();
+    $cls = 'TDD\\controllers\\' . $this->currentController;
+    $this->currentController = new $cls();
 
     // Kijk naar het tweede gedeelte van de url en zet de method
     if (isset($url[1])) {

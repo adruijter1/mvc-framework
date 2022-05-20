@@ -1,4 +1,7 @@
 <?php
+
+  use TDD\libraries\Database;
+
   class Country {
     // Properties, fields
     private $db;

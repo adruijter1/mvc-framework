@@ -1,4 +1,8 @@
 <?php
+namespace TDD\controllers;
+
+use TDD\libraries\Controller;
+
 class Countries extends Controller {
   // Properties, field
   private $countryModel;
@@ -114,6 +118,11 @@ class Countries extends Controller {
 
       $this->view('countries/scanCountry', $data);
     }
+  }
+
+  public function sayMyName()
+  {
+    return "Arjan";
   }
 }
 

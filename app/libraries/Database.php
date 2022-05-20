@@ -1,4 +1,10 @@
 <?php
+  namespace TDD\libraries;
+
+  require 'C:/projects_C2021/mvc-framework/app/config/config.php';
+
+  use \PDO;
+
   class Database {
     private $dbHost = DB_HOST;
     private $dbUser = DB_USER;
@@ -34,10 +40,10 @@
         case is_int($value):
           $type = PDO::PARAM_INT;
           break;
-        case is_bool($type):
+        case is_bool($value):
           $type = PDO::PARAM_BOOL;
           break;
-        case is_null($type):
+        case is_null($value):
           $type = PDO::PARAM_NULL;
           break;
         default:
