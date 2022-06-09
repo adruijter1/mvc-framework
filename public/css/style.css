@@ -1,7 +1,12 @@
 h3 {
-  border: 2px solid red;
+  color:lightblue;
 }
 
 #test {
   display: none;
+}
+
+.errorForm {
+  font-size: 0.7em;
+  color: red;
 }

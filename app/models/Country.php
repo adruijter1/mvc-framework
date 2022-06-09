@@ -11,7 +11,7 @@
     }
 
     public function getCountries() {
-      $this->db->query("SELECT * FROM `country`;");
+      $this->db->query("SELECT * FROM `country` ORDER BY `id` ASC;");
       $result = $this->db->resultSet();
       return $result;
     }
@@ -52,6 +52,7 @@
     }
 
     public function createCountry($post) {
+      try {
       $this->db->query("INSERT INTO country(id, name, capitalCity, continent, population) 
                         VALUES(:id, :name, :capitalCity, :continent, :population)");
 
@@ -62,6 +63,12 @@
       $this->db->bind(':population', $post["population"], PDO::PARAM_INT);
 
       return $this->db->execute();
+      
+      } catch (PDOException $e) {
+          echo $e->getMessage();
+          echo "Het inserten van het record is niet gelukt";
+          header("Refresh:3; url=" . URLROOT . "/countries/index");
+      }
     }
   }
 

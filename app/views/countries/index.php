@@ -1,11 +1,10 @@
 <?php 
-  //include(APPROOT . "/views/includes/head.php" );
+  require APPROOT . '/views/includes/header.php';
   echo $data["title"]; 
 ?>
 <a href="<?=URLROOT;?>/countries/create">Nieuw record</a>
 <table>
   <thead>
-    <th>id</th>
     <th>Land</th>
     <th>hoofdstad</th>
     <th>continent</th>
@@ -19,3 +18,6 @@
 </table>
 <a href="<?=URLROOT;?>/homepages/index">terug</a>
 
+<?php 
+  require APPROOT . '/views/includes/footer.php';
+?>

@@ -1,4 +1,8 @@
 <?php
+namespace TDD\controllers;
+
+use TDD\libraries\Controller;
+
 class HomePages extends Controller {
 
   public function index() {

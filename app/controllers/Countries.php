@@ -25,19 +25,18 @@ class Countries extends Controller {
     $rows = '';
     foreach ($countries as $value){
       $rows .= "<tr>
-                  <td>$value->id</td>
-                  <td>" . htmlentities($value->name, ENT_QUOTES, 'ISO-8859-1') . "</td>
-                  <td>" . htmlentities($value->capitalCity, ENT_QUOTES, 'ISO-8859-1') . "</td>
-                  <td>" . htmlentities($value->continent, ENT_QUOTES, 'ISO-8859-1') . "</td>
+                  <td>" . $value->name . "</td>
+                  <td>" . $value->capitalCity . "</td>
+                  <td>" . $value->continent . "</td>
                   <td>" . number_format($value->population, 0, ',', '.') . "</td>
-                  <td><a href='" . URLROOT . "/countries/update/$value->id'>update</a></td>
-                  <td><a href='" . URLROOT . "/countries/delete/$value->id'>delete</a></td>
+                  <td><a href='" . URLROOT . "/countries/update/$value->id'><i class='bi bi-pencil-square'></i></a></td>
+                  <td><a href='" . URLROOT . "/countries/delete/$value->id'><i class='bi bi-x-square'></i></a></td>
                 </tr>";
     }
 
 
     $data = [
-      'title' => '<h1>Landenoverzicht</h1>',
+      'title' => '<h3>Landenoverzicht</h3>',
       'countries' => $rows
     ];
     $this->view('countries/index', $data);
@@ -53,7 +52,7 @@ class Countries extends Controller {
     } else {
       $row = $this->countryModel->getSingleCountry($id);
       $data = [
-        'title' => '<h1>Update landenoverzicht</h1>',
+        'title' => '<h3>Update landenoverzicht</h3>',
         'row' => $row
       ];
       $this->view("countries/update", $data);
@@ -71,23 +70,75 @@ class Countries extends Controller {
   }
 
   public function create() {
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      // var_dump($_POST);
-      try {
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $this->countryModel->createCountry($_POST);
-        header("Location:" . URLROOT . "/countries/index");
-      } catch (PDOException $e) {
-        echo "Het inserten van het record is niet gelukt";
-        header("Refresh:3; url=" . URLROOT . "/countries/index");
-      }
-    } else {
-      $data = [
-        'title' => "Voeg een nieuw land in"
-      ];
+    /**
+     * Default waarden voor de view create.php
+     */
 
-      $this->view("countries/create", $data);
+    $data = [
+      'title' => '<h3>Voeg een nieuw land in</h3>',
+      'name' => '',
+      'capitalCity' => '',
+      'continent' => '',
+      'population' => '',
+      'nameError' => '',
+      'capitalCityError' => '',
+      'continentError' => '',
+      'populationError' => ''
+    ];
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $data = [
+          'title' => '<h3>Voeg een nieuw land in</h3>',
+          'name' => trim($_POST['name']),
+          'capitalCity' => trim($_POST['capitalCity']),
+          'continent' => trim($_POST['continent']),
+          'population' => trim($_POST['population']),
+          'nameError' => '',
+          'capitalCityError' => '',
+          'continentError' => '',
+          'populationError' => ''
+        ];
+
+        $data = $this->validateCreateForm($data);
+        
+        if (empty($data['nameError']) && empty($data['capitalCityError']) && empty($data['continentError']) && empty($data['populationError'])) {
+          $this->countryModel->createCountry($_POST);
+          header("Location:" . URLROOT . "/countries/index");
+        }
+    } 
+
+    $this->view("countries/create", $data);    
+  }
+
+  public function validateCreateForm($data) {
+    if (empty($data['name'])) {
+      $data['nameError'] = 'U heeft nog geen land ingevuld';
+    } elseif (filter_var($data['name'], FILTER_VALIDATE_EMAIL)) {
+      $data['nameError'] = 'U heeft blijkbaar een emailadres ingevuld';
+    } elseif(!preg_match('/^[a-zA-Z]*$/', $data['name'])) {
+      $data['nameError'] = 'U heeft andere tekens gebruikt dan die in het alfabet';
     }
+
+    if (empty($data['capitalCity'])) {
+      $data['capitalCityError'] = 'U heeft nog geen hoofdstad van het land ingevuld';
+    }
+
+    if (empty($data['continent'])) {
+      $data['continentError'] = 'U heeft nog geen continent ingevuld';
+    } elseif (!in_array($data['continent'], ['Afrika','Antartica','Azie','Australie/Oceanie','Europa','Noord-Amerika','Zuid-Amerika'])) {
+      $data['continentError'] = 'U heeft een niet bestaand continent opgegeven, probeer het opnieuw';
+    }
+
+    if (empty($data['population'])) {
+      $data['populationError'] = 'U heeft nog niet het inwonersaantal van het land ingevuld';
+    } elseif($data['population'] > 4294967295) {
+      $data['populationError'] = 'U heeft een te groot inwonersaantal ingevuld';
+    }
+
+    return $data;
   }
 
   public function scanCountry() {
