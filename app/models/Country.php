@@ -29,6 +29,7 @@
     }    
 
     public function updateCountry($post) {
+        // var_dump($post);exit();
       $this->db->query("UPDATE country 
                         SET name = :name,
                             capitalCity = :capitalCity,
@@ -46,28 +47,32 @@
     }
 
     public function deleteCountry($id) {
-      $this->db->query("DELETE FROM country WHERE id = :id");
-      $this->db->bind("id", $id, PDO::PARAM_INT);
-      return $this->db->execute();
+        try {
+            $this->db->query("DELETE FROM country WHERE id = :id");
+            $this->db->bind("id", $id, PDO::PARAM_INT);
+            return $this->db->execute();
+        } catch(PDOException $e) {
+            logger(__FILE__, __METHOD__, __LINE__, $e->getMessage());
+            return 0;
+        }
     }
 
     public function createCountry($post) {
       try {
-      $this->db->query("INSERT INTO country(id, name, capitalCity, continent, population) 
-                        VALUES(:id, :name, :capitalCity, :continent, :population)");
+        $this->db->query("INSERT INTO country (id, name, capitalCity, continent, population) 
+                            VALUES(:id, :name, :capitalCity, :continent, :population)");
 
-      $this->db->bind(':id', NULL, PDO::PARAM_INT);
-      $this->db->bind(':name', $post["name"], PDO::PARAM_STR);
-      $this->db->bind(':capitalCity', $post["capitalCity"], PDO::PARAM_STR);
-      $this->db->bind(':continent', $post["continent"], PDO::PARAM_STR);
-      $this->db->bind(':population', $post["population"], PDO::PARAM_INT);
+        $this->db->bind(':id', NULL, PDO::PARAM_INT);
+        $this->db->bind(':name', $post["name"], PDO::PARAM_STR);
+        $this->db->bind(':capitalCity', $post["capitalCity"], PDO::PARAM_STR);
+        $this->db->bind(':continent', $post["continent"], PDO::PARAM_STR);
+        $this->db->bind(':population', $post["population"], PDO::PARAM_INT);
 
-      return $this->db->execute();
+        return $this->db->execute();
       
       } catch (PDOException $e) {
-          echo $e->getMessage();
-          echo "Het inserten van het record is niet gelukt";
-          header("Refresh:3; url=" . URLROOT . "/countries/index");
+          logger(__FILE__, __METHOD__, __LINE__, $e->getMessage());
+          return 0;
       }
     }
   }

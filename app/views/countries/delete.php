@@ -1,4 +1,9 @@
-<?php 
- // include("/views/includes/head.php" );
+<?php
+  require APPROOT . '/views/includes/header.php';
 ?>
-<h1 id="test"><?= $data['deleteStatus']; ?></h1>
+
+<h3><?= $data['deleteStatus']; ?></h3>
+
+<?php
+  require APPROOT . '/views/includes/footer.php';
+?>

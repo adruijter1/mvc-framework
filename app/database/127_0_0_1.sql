@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Gegenereerd op: 20 mei 2022 om 07:18
+-- Gegenereerd op: 14 jun 2022 om 14:56
 -- Serverversie: 5.7.31
 -- PHP-versie: 7.4.15
 
@@ -37,16 +37,19 @@ CREATE TABLE IF NOT EXISTS `country` (
   `continent` enum('Afrika','Antartica','Azie','Australie/Oceanie','Europa','Noord-Amerika','Zuid-Amerika') NOT NULL,
   `population` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=81 DEFAULT CHARSET=latin1;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `country`
 --
 
 INSERT INTO `country` (`id`, `name`, `capitalCity`, `continent`, `population`) VALUES
-(18, 'Nederland', 'Amsterdam', 'Europa', 13000000),
-(19, 'Belgie', 'Brussel', 'Europa', 14000000),
-(21, 'Verenigde Staten', 'Washington', 'Noord-Amerika', 250000000);
+(39, 'China', 'Bejing', 'Australie/Oceanie', 1234000000),
+(58, 'Tanzania', 'Dodoma', 'Afrika', 59730000),
+(47, 'Japan', 'Tokyo', 'Azie', 1230000000),
+(73, 'Senegal', 'Dakar', 'Afrika', 16740001),
+(54, 'Belgi&euml;', 'Brussel', 'Europa', 3254364324),
+(62, 'Zwitserland', 'Bern', 'Europa', 4294267295);
 
 -- --------------------------------------------------------
 
