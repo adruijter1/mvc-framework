@@ -1,0 +1,10 @@
+SELECT Orders.OrderID, Customers.CustomerName
+FROM Orders
+INNER JOIN Customers ON Orders.CustomerID = Customers.CustomerID
+AND `Customers`.`CustomerID` = 5;
+
+
+SELECT `Orders`.`OrderID`, `Customers`.`CustomerName`
+FROM `Orders`, `Customers`
+WHERE `Orders`.`CustomerID` = `Customers`.`CustomerID`
+AND `Customers`.`CustomerID` = 5;

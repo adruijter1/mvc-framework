@@ -1,4 +1,8 @@
 <?php
+/**
+ * Deze controller regelt alle views in de map views/countries
+ */
+
 namespace TDD\controllers;
 
 use TDD\libraries\Controller;
@@ -37,7 +41,9 @@ class Countries extends Controller
                         </tr>";
         }
 
-
+        /**
+         * $data array bevat alle informatie voor de view contries/index
+         */
         $data = [
         'title' => '<h3>Landenoverzicht</h3>',
         'countries' => $rows
@@ -52,6 +58,9 @@ class Countries extends Controller
          */
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+            /**
+             * het $_POST array wordt schoongemaakt door de functie filter_input_array
+             */
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $data = [
@@ -76,9 +85,9 @@ class Countries extends Controller
              * Check of er geen validatie error is
              */
             if (
-                empty($data['nameError']) && 
-                empty($data['capitalCityError']) && 
-                empty($data['continentError']) && 
+                empty($data['nameError']) &&
+                empty($data['capitalCityError']) &&
+                empty($data['continentError']) &&
                 empty($data['populationError'])
             ) {
         
@@ -130,7 +139,8 @@ class Countries extends Controller
         }    
     }
 
-    public function delete($id) {
+    public function delete($id) 
+    {
         if ($this->countryModel->deleteCountry($id)) {
             $data = [
                 'deleteStatus' =>  "<div class='alert alert-danger' role='alert'>
@@ -148,7 +158,8 @@ class Countries extends Controller
         header("Refresh:3; url=" . URLROOT . "/countries/index");
     }
 
-    public function create() {
+    public function create() 
+    {
         /**
          * Default waarden voor de view create.php
          */
@@ -185,7 +196,10 @@ class Countries extends Controller
         
             if (empty($data['nameError']) && empty($data['capitalCityError']) && empty($data['continentError']) && empty($data['populationError'])) {
                 if ($this->countryModel->createCountry($_POST)) {
-                    header("Location:" . URLROOT . "/countries/index");
+                    echo "<div class='alert alert-danger' role='alert'>
+                            Uw gegevens zijn opgeslagen...
+                        </div>";
+                    header("Refresh:3; url=" . URLROOT . "/countries/index");
                 } else {
                     echo "<div class='alert alert-danger' role='alert'>
                             Er heeft een interne servererror plaatsgevonden<br>probeer het later nog eens...
@@ -198,7 +212,8 @@ class Countries extends Controller
         $this->view("countries/create", $data);    
     }
 
-    private function validateCreateForm($data) {
+    private function validateCreateForm($data) 
+    {
         if (empty($data['name'])) {
         $data['nameError'] = 'U heeft nog geen land ingevuld';
         } elseif (filter_var($data['name'], FILTER_VALIDATE_EMAIL)) {
@@ -225,7 +240,8 @@ class Countries extends Controller
         return $data;
     }
 
-    public function scanCountry() {
+    public function scanCountry() 
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -255,8 +271,8 @@ class Countries extends Controller
         }
     }
 
-    public function sayMyName()
+    public function sayMyName($name)
     {
-        return "Arjan";
+        return "Hallo mijn naam is: " . $name;
     }
 }
