@@ -18,8 +18,14 @@ class Countries extends Controller
         $this->countryModel = $this->model('Country');
     }
 
-    public function index()
+    public function index($title = NULL)
     {
+        // Null coalescence operator
+        // $message = $title ?? '<h3>Landenoverzicht</h3>';
+
+        // Null coalescence assignment operator
+        $title ??= '<h3>Landenoverzicht</h3>';
+
         /**
          * Haal via de method getCountries() uit de model Country de records op
          * uit de database
@@ -45,7 +51,7 @@ class Countries extends Controller
          * $data array bevat alle informatie voor de view contries/index
          */
         $data = [
-        'title' => '<h3>Landenoverzicht</h3>',
+        'title' => $title,
         'countries' => $rows
         ];
         $this->view('countries/index', $data);
@@ -64,7 +70,7 @@ class Countries extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $data = [
-                'title' => '<h3>Voeg een nieuw land in</h3>',
+                'title' => '<h3 style="color:green;">Update landenoverzicht succesvol</h3>',
                 'id' => trim($_POST['id']),
                 'name' => trim($_POST['name']),
                 'capitalCity' => trim($_POST['capitalCity']),
@@ -98,14 +104,16 @@ class Countries extends Controller
                     /**
                      * Dan een melding dat de gegevens zijn gewijzigd
                      */
-                    echo "<div class='alert alert-success' role='alert'>
-                            Uw gegevens zijn gewijzigd.
-                        </div>";
+                    // $data['title'] = "TestGoed";
+                    // echo "<div class='alert alert-success' role='alert'>
+                    //         Uw gegevens zijn gewijzigd.
+                    //     </div>";
                     header("Refresh:3; url=" . URLROOT . "/countries/index");
                 } else {
                     /**
                      * Anders de melding dat er een interne servererror heeft plaatsgevonden
                      */
+                    $data['title'] = "TestSlecht";
                     echo "<div class='alert alert-danger' role='alert'>
                             Er heeft een interne servererror plaatsgevonden<br>probeer het later nog eens...
                         </div>";
@@ -139,23 +147,35 @@ class Countries extends Controller
         }    
     }
 
+    // public function delete($id) 
+    // {
+    //     if ($this->countryModel->deleteCountry($id)) {
+    //         $data = [
+    //             'deleteStatus' =>  "<div class='alert alert-danger' role='alert'>
+    //                                     Het record is verwijdert
+    //                                 </div>"
+    //         ];
+    //     } else {
+    //         $data =[
+    //             'deleteStatus' =>  "<div class='alert alert-danger' role='alert'>
+    //                                     Interne servererror het record is niet verwijdert
+    //                                 </div>"
+    //         ];
+    //     }
+    //     $this->view("countries/delete", $data);
+    //     header("Refresh:3; url=" . URLROOT . "/countries/index");
+    // }
+
     public function delete($id) 
     {
-        if ($this->countryModel->deleteCountry($id)) {
-            $data = [
-                'deleteStatus' =>  "<div class='alert alert-danger' role='alert'>
-                                        Het record is verwijdert
-                                    </div>"
-            ];
-        } else {
-            $data =[
-                'deleteStatus' =>  "<div class='alert alert-danger' role='alert'>
-                                        Interne servererror het record is niet verwijdert
-                                    </div>"
-            ];
-        }
-        $this->view("countries/delete", $data);
         header("Refresh:3; url=" . URLROOT . "/countries/index");
+        if ($this->countryModel->deleteCountry($id)) {
+            $message = "<h3 style='color:green;'>Delete is succesvol</h3>";
+        } else {
+            $message = "<h3 style='color:red;'>Delete is not succesvol</h3>";
+        }
+        $this->index($message);
+        
     }
 
     public function create() 
@@ -217,8 +237,8 @@ class Countries extends Controller
         if (empty($data['name'])) {
         $data['nameError'] = 'U heeft nog geen land ingevuld';
         } elseif (filter_var($data['name'], FILTER_VALIDATE_EMAIL)) {
-        $data['nameError'] = 'U heeft blijkbaar een emailadres ingevuld';
-        } elseif(!preg_match('/^[a-zA-Z]*$/', $data['name'])) {
+        $data['nameError'] = 'U heeft blijkbaar geen emailadres ingevuld';
+        } elseif(!preg_match('/^[a-zA-Z]*/', $data['name'])) {
         $data['nameError'] = 'U heeft andere tekens gebruikt dan die in het alfabet';
         }
 
@@ -276,3 +296,4 @@ class Countries extends Controller
         return "Hallo mijn naam is: " . $name;
     }
 }
+

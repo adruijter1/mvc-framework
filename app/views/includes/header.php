@@ -13,6 +13,6 @@
     
     <!-- Homebrewed CSS -->
     <link rel="stylesheet" href="<?= URLROOT; ?>/public/css/style.css">
-    <title>Landen van de Wereld</title>
+    <title>QLanden van de Wereld</title>
   </head>
   <body>

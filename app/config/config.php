@@ -8,5 +8,5 @@ define('DB_PASS', '');
 define('DB_NAME', 'mvcframework');
 define('APPROOT', dirname(dirname(__FILE__)));
 //echo APPROOT;exit();
-define('URLROOT', 'http://www.mvc-framework.org');
+define('URLROOT', 'http://mvc-framework.org');
 define('SITENAME', 'MVC Framework');
