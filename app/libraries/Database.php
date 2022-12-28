@@ -1,10 +1,5 @@
 <?php
-  namespace TDD\libraries;
-
-  require 'C:/projects_C2021/mvc-framework/app/config/config.php';
-
-  use \PDO;
-
+  
   class Database {
     private $dbHost = DB_HOST;
     private $dbUser = DB_USER;

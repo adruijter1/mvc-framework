@@ -1,23 +1,18 @@
 <?php
-
-
 /**
  * Dit is de testclass voor de countries controller class
  */
 
-
-namespace TDD\Test;
-
-require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+require 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+// require dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 
 use PHPUnit\Framework\TestCase;
-use TDD\controllers\Countries;
-
 
  class countriesTest extends TestCase
  {
     /**
+     * 
      * @dataProvider provideSayMyName
      */
     public function testSayMyName($input, $expected)

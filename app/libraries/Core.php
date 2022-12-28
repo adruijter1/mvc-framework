@@ -28,8 +28,8 @@ class Core {
     require_once '../app/controllers/' . $this->currentController . ".php";
 
     // Maak een nieuwe instantie van de controllerClass
-    $cls = 'TDD\\controllers\\' . $this->currentController;
-    $this->currentController = new $cls();
+    // $cls = 'TDD\\controllers\\' . $this->currentController;
+    $this->currentController = new $this->currentController();
 
     // Kijk naar het tweede gedeelte van de url en zet de method
     if (isset($url[1])) {
