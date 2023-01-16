@@ -9,8 +9,13 @@ class Countries extends Controller
     // Properties, fields
     private $countryModel;
 
+    public function Arjan()
+    {
+        return "Arjan" . $this->index();
+    }
+
     // Dit is de constructor
-    public function __construct()
+    public function __construct($test = NULL)
     {
         $this->countryModel = $this->model('Country');
     }

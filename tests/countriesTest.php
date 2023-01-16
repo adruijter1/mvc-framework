@@ -36,4 +36,17 @@ use PHPUnit\Framework\TestCase;
 
         ];
     }
+
+    public function testMockTest()
+    {
+        $receipt = $this->getMockBuilder(Countries::class)
+                        // ->setConstructorArgs(["test"])
+                        ->setMethods(['index'])
+                        ->getMock();
+        $receipt->method('index')
+                ->will($this->returnValue(' de Ruijter'));
+        $result = $receipt->Arjan();
+        // fwrite(STDOUT, $result);
+        $this->assertEquals("Arjan de Ruijter", $result);
+    }
  }
