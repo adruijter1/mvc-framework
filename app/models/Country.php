@@ -28,7 +28,9 @@
     }    
 
     public function updateCountry($post) {
-        // var_dump($post);exit();
+        //  var_dump($post);exit();
+      try {
+      
       $this->db->query("UPDATE country 
                         SET name = :name,
                             capitalCity = :capitalCity,
@@ -43,6 +45,10 @@
       $this->db->bind(':population', $post["population"], PDO::PARAM_INT);
 
       return $this->db->execute();
+      } catch (PDOException $e) {
+        logger(__FILE__, __METHOD__, __LINE__, $e->getMessage());
+        return 0;
+      }
     }
 
     public function deleteCountry($id) {

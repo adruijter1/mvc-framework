@@ -71,8 +71,11 @@ class Countries extends Controller
              */
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+            /**
+             * Maak het $data-array om de te wijzigen data in het formulier te zetten in de view
+             */
             $data = [
-                'title' => '<h3 style="color:green;">Update landenoverzicht succesvol</h3>',
+                // 'title' => '<h3 style="color:green;">Update landenoverzicht succesvol</h3>',
                 'id' => trim($_POST['id']),
                 'name' => trim($_POST['name']),
                 'capitalCity' => trim($_POST['capitalCity']),
@@ -100,27 +103,32 @@ class Countries extends Controller
             ) {
         
                 /**
-                 * Als er een update heeft plaatsgevonden
+                 * Als er geen validatie-error is wordt de update uitgevoerd
                  */
                 if ($this->countryModel->updateCountry($data)) {
                     /**
-                     * Dan een melding dat de gegevens zijn gewijzigd
+                     * Als de update ook daadwerkelijk is gelukt, 
+                     * dan een melding dat de gegevens zijn gewijzigd
                      */
-                    // $data['title'] = "TestGoed";
-                    // echo "<div class='alert alert-success' role='alert'>
-                    //         Uw gegevens zijn gewijzigd.
-                    //     </div>";
+                    $data['title'] = '<h3 style="color:green;">Update landenoverzicht succesvol</h3>';
+                   
+                    /**
+                     * Na drie seconden doorsturen naar de index pagina
+                     */
                     header("Refresh:3; url=" . URLROOT . "/countries/index");
                 } else {
                     /**
-                     * Anders de melding dat er een interne servererror heeft plaatsgevonden
+                     * Als de update niet is gelukt, de melding dat er een 
+                     * interne server-error heeft plaatsgevonden
                      */
-                    $data['title'] = "TestSlecht";
+                    $data['title'] = '<h3>Update landenoverzicht</h3>';
                     echo "<div class='alert alert-danger' role='alert'>
                             Er heeft een interne servererror plaatsgevonden<br>probeer het later nog eens...
                         </div>";
                     header("Refresh:3; url=" . URLROOT . "/countries/index");
                 }
+            } else {
+                $data['title'] = '<h3 style="color:green;">Data nog niet compleet ingevuld</h3>';
             }
             /**
              * Stuur het $data array met de validatie error meldingen naar de pagina update
@@ -185,7 +193,6 @@ class Countries extends Controller
         /**
          * Default waarden voor de view create.php
          */
-
         $data = [
         'title' => '<h3>Voeg een nieuw land in</h3>',
         'name' => '',
@@ -237,7 +244,8 @@ class Countries extends Controller
     private function validateCreateForm($data) 
     {
         if (empty($data['name'])) {
-        $data['nameError'] = 'U heeft nog geen land ingevuld';
+
+            $data['nameError'] = 'U heeft nog geen land ingevuld';
         } elseif (filter_var($data['name'], FILTER_VALIDATE_EMAIL)) {
         $data['nameError'] = 'U heeft blijkbaar geen emailadres ingevuld';
         } elseif(!preg_match('/^[a-zA-Z]*/', $data['name'])) {

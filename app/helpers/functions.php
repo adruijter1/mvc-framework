@@ -47,4 +47,4 @@ function logger($fileName, $methodName, $lineNumber, $error) {
      * Schrijf de nieuwe content naar de logfile
      */
     file_put_contents($pathToLogfile, $contents);
-}
+}   
