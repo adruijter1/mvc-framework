@@ -15,10 +15,22 @@
       return $result;
     }
 
+        // public function getSingleCountry($id) {
+        //   try {
+        //     $sql = 'CALL spGetSingleCountry(:countryId)'; 
+        //     $this->db->query($sql);
+        //     $this->db->bind(':countryId', $id, PDO::PARAM_INT);
+        //     return $this->db->single();
+        //   } catch (PDOException $e) {
+        //     logger(__FILE__, __METHOD__, __LINE__, $e->getMessage());
+        //     return 0;
+        //   }
+        // }
+
     public function getSingleCountry($id) {
-      $this->db->query("SELECT * FROM country WHERE id = :id");
-      $this->db->bind(':id', $id, PDO::PARAM_INT);
-      return $this->db->single();
+        $this->db->query("SELECT * FROM country WHERE id = :id");
+        $this->db->bind(':id', $id, PDO::PARAM_INT);
+        return $this->db->single();
     }
 
     public function getSingleCountryByName($name) {
@@ -53,8 +65,9 @@
 
     public function deleteCountry($id) {
         try {
-            $this->db->query("DELETE FROM country WHERE id = :id");
-            $this->db->bind("id", $id, PDO::PARAM_INT);
+            $sql = 'CALL spDeleteCountry(:id)';
+            $this->db->query($sql);
+            $this->db->bind(":id", $id, PDO::PARAM_INT);
             return $this->db->execute();
         } catch(PDOException $e) {
             logger(__FILE__, __METHOD__, __LINE__, $e->getMessage());
